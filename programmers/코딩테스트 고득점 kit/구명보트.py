@@ -1,21 +1,20 @@
+from collections import deque
+
 def solution(people, limit):
 
-    my_list = people
-    kg = limit
+    my_list = sorted(people, reverse = True)
+
+    queue = deque(my_list)
+
     count = 0
 
-    while True:
-        if len(my_list) == 0:
-            return count
-        x = my_list[0]
-        kg -= x
-        my_list.remove(x)
-        for i in my_list:
-            if i <= kg:
-                my_list.remove(i)
-                break
-
-        count += 1
-        kg = limit
+    while queue:
+        if queue[0] + queue[-1] <= limit and len(queue) >= 2:
+            queue.popleft()
+            queue.pop()
+            count += 1
+        else:
+            queue.popleft()
+            count += 1
 
     return count
